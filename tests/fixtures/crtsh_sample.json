@@ -1,0 +1,5 @@
+[
+  {"issuer_ca_id": 1, "name_value": "api.example.com\nwww.example.com", "common_name": "api.example.com"},
+  {"issuer_ca_id": 2, "name_value": "*.example.com", "common_name": "*.example.com"},
+  {"issuer_ca_id": 3, "name_value": "sub.thirdparty.example.net", "common_name": "other.net"}
+]

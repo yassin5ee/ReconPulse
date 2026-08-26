@@ -1,0 +1,50 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: reconpulse
+      POSTGRES_PASSWORD: reconpulse
+      POSTGRES_DB: reconpulse
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U reconpulse"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    environment:
+      RECONPULSE_DATABASE_URL: postgresql+psycopg2://reconpulse:reconpulse@db:5432/reconpulse
+      RECONPULSE_CORS_ORIGINS: http://localhost:8080
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c "alembic upgrade head && reconpulse-api"
+    ports:
+      - "8000:8000"
+
+  worker:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.worker
+    environment:
+      RECONPULSE_DATABASE_URL: postgresql+psycopg2://reconpulse:reconpulse@db:5432/reconpulse
+    depends_on:
+      api:
+        condition: service_started
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+
+volumes:
+  pgdata:

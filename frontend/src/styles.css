@@ -1,0 +1,65 @@
+:root {
+  --bg: #0d1117; --panel: #161b22; --border: #30363d;
+  --text: #c9d1d9; --muted: #8b949e;
+  --accent: #58a6ff; --green: #3fb950; --red: #f85149; --yellow: #d29922;
+}
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px }
+
+.shell { display: flex; min-height: 100vh }
+.sidebar { width: 210px; background: var(--panel); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; padding: 1rem 0.75rem }
+.brand { font-size: 1.15rem; font-weight: 700; margin-bottom: 1.2rem; letter-spacing: .3px }
+.brand span { color: var(--accent) }
+.sidebar nav { display: flex; flex-direction: column; gap: 2px }
+.sidebar nav a { color: var(--muted); text-decoration: none; padding: .45rem .6rem; border-radius: 6px }
+.sidebar nav a:hover { background: #21262d; color: var(--text) }
+.sidebar nav a.active { background: #1f6feb33; color: var(--accent) }
+.back { margin-top: auto; color: var(--muted); text-decoration: none; padding: .4rem .6rem }
+
+main { flex: 1; padding: 1.5rem 2rem; max-width: 1200px }
+h1 { font-size: 1.35rem; margin-top: 0 }
+.muted { color: var(--muted) }
+
+.row { display: flex; gap: .5rem; margin-bottom: 1rem; flex-wrap: wrap }
+input, select {
+  background: var(--panel); border: 1px solid var(--border); color: var(--text);
+  border-radius: 6px; padding: .45rem .65rem; min-width: 200px
+}
+button {
+  background: #238636; color: white; border: none; border-radius: 6px;
+  padding: .45rem .9rem; cursor: pointer; font-weight: 600
+}
+button.secondary { background: #21262d; color: var(--text) }
+button.danger { background: #b62324 }
+button:disabled { opacity: .5 }
+
+table { width: 100%; border-collapse: collapse; margin-top: .5rem }
+th, td { text-align: left; padding: .5rem .65rem; border-bottom: 1px solid var(--border) }
+th { color: var(--muted); font-weight: 600 }
+tr.clickable { cursor: pointer } tr.clickable:hover { background: #161b22 }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .8rem; margin: 1rem 0 }
+.card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: .8rem 1rem }
+.card .num { font-size: 1.6rem; font-weight: 700; color: var(--accent) }
+.card .label { color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .5px }
+
+.badge { display: inline-block; padding: .05rem .5rem; border-radius: 10px;
+  border: 1px solid var(--border); font-size: .78rem; margin-right: .25rem }
+.badge.IN_SCOPE { color: var(--green); border-color: var(--green) }
+.badge.OUT_OF_SCOPE { color: var(--red); border-color: var(--red) }
+.badge.UNKNOWN { color: var(--yellow); border-color: var(--yellow) }
+.badge.completed { color: var(--green); border-color: var(--green) }
+.badge.partial { color: var(--yellow); border-color: var(--yellow) }
+.badge.failed, .badge.stopped { color: var(--red); border-color: var(--red) }
+.badge.running, .badge.queued { color: var(--accent); border-color: var(--accent) }
+
+.scorebar { display: inline-block; height: 8px; width: 70px; background: #21262d; border-radius: 4px; overflow: hidden; vertical-align: middle }
+.scorebar i { display: block; height: 100%; background: linear-gradient(90deg, #d29922, #f85149) }
+.reasons { color: var(--muted); font-size: .78rem }
+
+svg#graph line { stroke: #30363d; stroke-width: 1 }
+svg#graph text { fill: var(--text); font-size: 11px }
+.legend span { margin-right: 1rem; color: var(--muted); font-size: .8rem }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: middle }

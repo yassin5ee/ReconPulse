@@ -1,0 +1,20 @@
+# Base image for the API (no recon tools needed).
+FROM python:3.12-slim
+
+ENV PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+COPY pyproject.toml README.md ./
+COPY backend backend
+COPY engine engine
+COPY plugins plugins
+COPY cli cli
+COPY workers workers
+COPY services services
+COPY alembic alembic
+COPY alembic.ini ./
+
+RUN pip install --no-cache-dir .
+
+EXPOSE 8000
+CMD ["reconpulse-api"]

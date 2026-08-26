@@ -1,0 +1,28 @@
+# Worker image: includes external reconnaissance tools (nmap).
+# Extend this image to add subfinder/amass/etc.; they register as adapters.
+FROM python:3.12-slim
+
+ENV PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1 DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends nmap \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY pyproject.toml README.md ./
+COPY backend backend
+COPY engine engine
+COPY plugins plugins
+COPY cli cli
+COPY workers workers
+COPY services services
+COPY alembic alembic
+COPY alembic.ini ./
+
+RUN pip install --no-cache-dir .
+
+# Run as non-root; nmap SYN scan needs root so default profile uses connect scan.
+RUN useradd -m scanner
+USER scanner
+
+CMD ["reconpulse-worker"]
